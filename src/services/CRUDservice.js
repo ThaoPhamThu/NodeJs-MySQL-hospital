@@ -28,7 +28,7 @@ let createNewUser = async (data) => {
 let hashUserPassword = (password) => {
     return new Promise(async (resolve,reject) => {
         try{
-            let hashPassword = await bcrypt.hash(password, salt);
+            let hashPassword = await bcrypt.hashSync(password, salt);
             resolve(hashPassword);
         } catch(e) {
             reject(e)
@@ -52,8 +52,51 @@ let getAllUser = () => {
 
 }
 
+let getUserInfoById = (id) => {
+    return new Promise( async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: {id: id},
+                raw: true
+            });
+            if (user) {
+                resolve(user);
+            } else {
+                resolve({});
+            }
+        } catch(e) {
+            reject(e);
+        }
+    })
+
+}
+
+let updateUserData = (data) => {
+   return new Promise(async (resolve, reject) =>{
+    try{
+        let user = await db.User.findOne({
+            where: {id: data.id}
+        })
+        if (user) {
+            user.firstName = data.firstName;
+            user.lastName = data.lastName;
+            user.address = data.address;
+
+            await user.save();
+            resolve();
+        } else {
+            resolve();
+        }
+    }catch(e) {
+        reject(e);
+    }
+   })
+}
+
 module.exports = {
     createNewUser: createNewUser,
     hashUserPassword: hashUserPassword,
     getAllUser: getAllUser,
+    getUserInfoById: getUserInfoById,
+    updateUserData: updateUserData,
 }
