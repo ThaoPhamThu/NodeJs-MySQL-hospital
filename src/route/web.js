@@ -1,5 +1,6 @@
 import express from "express";
 import homeController from "../controllers/homeController";
+import userController from "../controllers/userController";
 let router = express.Router(); 
 
 // Tất cả các route sẽ viết ở đây
@@ -12,6 +13,8 @@ let initWebRoutes = (app) => {
     router.get('/edit-crud', homeController.getEditCrud);
     router.post('/put-crud', homeController.putCrud);
     router.get('/delete-crud', homeController.deleteCrud);
+    
+    router.post('/api/login', userController.handleLogin);
     return app.use("/", router);
 }
 
