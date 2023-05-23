@@ -7,7 +7,7 @@ import cors from 'cors';
 require('dotenv').config(); //giúp chạy process.env
 
 let app = express();
-app.use(cors({origin: true}));
+app.use(cors({ credentials: true, origin: true }));
 
 //config app
 
